@@ -13,3 +13,6 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
+
+//a function to handle the sockets
+void* SocketHandler(void*);
