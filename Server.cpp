@@ -120,7 +120,7 @@ int main(int argv, char** argc) {
             fprintf(stderr, "Error accepting %d\n", errno);
         }
     }
-    Finish:
+    FINISH:
     ;
 }
 
