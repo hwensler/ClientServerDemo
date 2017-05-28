@@ -102,6 +102,8 @@ int main(int argv, char** argc) {
 
         }
     }
-
+    FINISH:
+        free(csock);
+        return 0;
 
 }
