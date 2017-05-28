@@ -109,12 +109,22 @@ int main(int argv, char** argc) {
                 goto FINISH;
             }
             pthread_detach(thread_id);
-
-
+        }
+        //if it's not successful
+        else{
+            fprintf(stderr, "Error accepting %d\n", errno);
         }
     }
+    Finish:
+    ;
+}
+
+void* SocketHandler(void* lp){
+    int *csock = (int*)lp;
+
+
+
     FINISH:
         free(csock);
         return 0;
-
 }
