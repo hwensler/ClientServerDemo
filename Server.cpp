@@ -49,7 +49,10 @@ int main(int argv, char** argc) {
 
     //bind the port to the socket
     //first, create the error message
-    if(bind(thisSocket, (socketAddress*)&serverAddress, sizeof(serverAddress)) == -1){
+    status = bind(thisSocket, (socketAddress*)&serverAddress, sizeof(serverAddress));
+
+    //if the binding was not successful
+    if(status < 0){
         fprintf(stderr, "Error binding to socket. Make sure nothing else is listening"
                 "on this port %d\n", errno);
         goto FINISH;
@@ -60,6 +63,7 @@ int main(int argv, char** argc) {
         fprintf(stderr, "Error listening %d\n", errno);
         goto FINISH;
     }
+
 
 
 }
