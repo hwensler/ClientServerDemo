@@ -13,12 +13,20 @@
 #include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
+#include <iostream>
+#include <string>
 
 //the max number of players or max number of pending connections
 int MAXPENDING = 10;
+pthread_t thread_id;
+
+
+int* csock;
 
 //a function to handle the sockets
 void* SocketHandler(void*);
+
+using namespace std;
 
 int main(int argv, char** argc) {
 
@@ -38,16 +46,18 @@ int main(int argv, char** argc) {
     }
 
     //create structs for server socket information
-    struct socketAddress_in serverAddress;
+    struct socketAddress_in{
+      unsigned long s_address;  //internet address(32 bits)
+    };
+    struct serverAddress;{
+        unsigned short sin_family = AF_INET;    //always AF_INET
+        unsigned short sin_port = htons(server_port);
+        struct socketAddress_in sin_addr;
+        sin_addr.s_address = htonl(INADDR_ANY); //directs the server to use any ip address
+                                                // associated with the host
+        char sin_zero[8];
+    }
 
-    socketAddress_in sadr;
-
-    //set the fields for the address
-    serverAddress.sin_family = AF_INET; //this is always AF_INET
-    serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);  //directs the server to use any ip address
-                                                        // associated with the host
-    serverAddress.sin_port = htons(server_port);
-    memset(&(serverAddress.sin_zero), 0, 8);
 
     //bind the port to the socket
     //first, create the error message
@@ -64,7 +74,7 @@ int main(int argv, char** argc) {
     int listenStatus = listen(thisSocket, MAXPENDING);
 
     //if the listen is a failure
-    if(listen(listenStatus < 0)){
+    if(listenStatus < 0){
         fprintf(stderr, "Error listening %d\n", errno);
         goto FINISH;
     }
@@ -72,7 +82,7 @@ int main(int argv, char** argc) {
     //accept a connection
 
     //get the server address size
-    address_size = sizeof(socketAddress_in);
+    int address_size = sizeof(socketAddress_in);
 
     //while no connection is accepted
     while(true){
@@ -83,6 +93,7 @@ int main(int argv, char** argc) {
         csock = (int*)malloc(sizeof(int));
 
         //try and connect
+        int* csock;
         *csock = accept(thisSocket, (socketAddress*)&sadr, &address_size);
 
         //if it's successful
@@ -90,7 +101,7 @@ int main(int argv, char** argc) {
             printf("-------\nReveived connection from %s\n", inet_ntoa(sadr.sin_addr));
 
             //create the pthread
-            threadErrorCheck = pthread_create(&thread_id, 0, &SocketHandler, (void*)csock);
+           int  threadErrorCheck = pthread_create(&thread_id, 0, &SocketHandler, (void*)csock);
 
             //check that thread is created
             if(threadErrorCheck){

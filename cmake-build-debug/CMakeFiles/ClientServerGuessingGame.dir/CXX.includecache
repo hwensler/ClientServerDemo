@@ -1,0 +1,44 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+C:/Users/heath/Documents/Repositories/ClientServerGuessingGame/Client.cpp
+netinet/in.h
+-
+resolv.h
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+unistd.h
+-
+
+C:/Users/heath/Documents/Repositories/ClientServerGuessingGame/Server.cpp
+fcntl.h
+-
+string.h
+-
+stdlib.h
+-
+errno.h
+-
+stdio.h
+-
+netinet/in.h
+-
+resolv.h
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+unistd.h
+-
+pthread.h
+-
+
