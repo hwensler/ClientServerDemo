@@ -20,7 +20,7 @@ void* SocketHandler(void*);
 int main(int argv, char** argc) {
 
     //declare the port
-    int host_port = 12400;
+    int server_port = 12400;
 
     //initialize a socket
     int thisSocket;
@@ -33,4 +33,16 @@ int main(int argv, char** argc) {
         printf("There was an error initializing the socket.\n");
         goto FINISH;
     }
+
+    //create structs for server socket information
+    struct socketAddress_in serverAddress;
+
+    //set the fields
+    serverAddress.sin_family = AF_INET; //this is always AF_INET
+    serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);  //directs the server to use any ip address
+                                                        // associated with the host
+    serverAddress.sin_port = htons(server_port);
+    memset(&(serverAddress.sin_zero), 0, 8);
+
+
 }
