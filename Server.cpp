@@ -26,10 +26,11 @@ int main(int argv, char** argc) {
     int thisSocket;
 
     //create the socket
-    thisSocket = socket(AF_INET, SOCK_STREAM), 0);
+    thisSocket = socket(AF_INET, SOCK_STREAM, 0);
 
-    if(thisSocket == -1){
-        printf("There was an error initializing socket %d\n", errno);
+    //provide the socket error message
+    if(thisSocke < 1){
+        printf("There was an error initializing the socket.\n");
         goto FINISH;
     }
 }
