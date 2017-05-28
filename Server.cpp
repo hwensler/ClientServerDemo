@@ -54,6 +54,7 @@ int main(int argv, char** argc) {
     struct socketAddress_in{
       unsigned long s_address;  //internet address(32 bits)
     };
+
     struct serverAddress;{
         unsigned short sin_family = AF_INET;    //always AF_INET
         unsigned short sin_port = htons(server_port);

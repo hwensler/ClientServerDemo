@@ -27,8 +27,18 @@ int main(int argv, char** argc) {
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
     //declare structs for socket
-    struct socketAddress_in;
-    struct clientAddress;
+    struct socketAddress_in{
+        unsigned long s_addr;   //internet address (32 bits)
+    };
+
+    struct clientAddress{
+        unsigned short sin_family = AF_INET;    //always AF_INET
+        unsigned short sin_port = htons(host_port); //port (16 bits
+        struct in_addr; //internet address structure
+        struct sin_addr;
+        char sin_zero[8];   //not used
+
+    };
 
     int thisSocket; //an int for this socket
     int err;    //a variable for errors
@@ -36,10 +46,25 @@ int main(int argv, char** argc) {
     //create the socket
     thisSocket = socket(AF_INET, SOCK_STREAM, 0);
 
-    //error messge for if the socket isn't created correctly
+    //error message for if the socket isn't created correctly
     if (thisSocket < 0){
         printf("Error initializing socket %d\n", errno);
     }
+
+    //establish connection
+    int connection = connect(thisSocket(struct sockaddr*)&clientAddress, sizeof(clientAddress));
+
+    //create error information
+    if(connection == -1){
+        if((err = errno) != EINPROGRESS){
+            fprintf(stderr, "Error connecting socket %d\n", errno);
+            goto FINISH;
+        }
+    }
+
+
+FINISH:
+    ;
 
 }
 
