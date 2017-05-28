@@ -62,6 +62,8 @@ int main(int argv, char** argc) {
         }
     }
 
+    //now to do actual client stuff
+
 
 FINISH:
     ;
