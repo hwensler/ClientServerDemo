@@ -40,6 +40,8 @@ int main(int argv, char** argc) {
     //create structs for server socket information
     struct socketAddress_in serverAddress;
 
+    socketAddress_in sadr;
+
     //set the fields for the address
     serverAddress.sin_family = AF_INET; //this is always AF_INET
     serverAddress.sin_addr.s_addr = htonl(INADDR_ANY);  //directs the server to use any ip address
@@ -67,6 +69,39 @@ int main(int argv, char** argc) {
         goto FINISH;
     }
 
+    //accept a connection
+
+    //get the server address size
+    address_size = sizeof(socketAddress_in);
+
+    //while no connection is accepted
+    while(true){
+        //tell the user we're waiting
+        printf("Waiting for a connection.\n");
+
+        //create an int to be returned from the attempt at connection
+        csock = (int*)malloc(sizeof(int));
+
+        //try and connect
+        *csock = accept(thisSocket, (socketAddress*)&sadr, &address_size);
+
+        //if it's successful
+        if(*csock != -1){
+            printf("-------\nReveived connection from %s\n", inet_ntoa(sadr.sin_addr));
+
+            //create the pthread
+            threadErrorCheck = pthread_create(&thread_id, 0, &SocketHandler, (void*)csock);
+
+            //check that thread is created
+            if(threadErrorCheck){
+                cout <<"Error: unable to create thread " << threadErrorCheck <<endl;
+                goto FINISH;
+            }
+            pthread_detach(thread_id);
+
+
+        }
+    }
 
 
 }
