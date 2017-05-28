@@ -27,4 +27,9 @@ int main(int argv, char** argc) {
 
     //create the socket
     thisSocket = socket(AF_INET, SOCK_STREAM), 0);
+
+    if(thisSocket == -1){
+        printf("There was an error initializing socket %d\n", errno);
+        goto FINISH;
+    }
 }
