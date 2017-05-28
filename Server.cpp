@@ -14,8 +14,8 @@
 #include <unistd.h>
 #include <pthread.h>
 
-//the max number of players
-int MAX = 10;
+//the max number of players or max number of pending connections
+int MAXPENDING = 10;
 
 //a function to handle the sockets
 void* SocketHandler(void*);
@@ -49,7 +49,7 @@ int main(int argv, char** argc) {
 
     //bind the port to the socket
     //first, create the error message
-    status = bind(thisSocket, (socketAddress*)&serverAddress, sizeof(serverAddress));
+    int status = bind(thisSocket, (socketAddress*)&serverAddress, sizeof(serverAddress));
 
     //if the binding was not successful
     if(status < 0){
@@ -59,7 +59,10 @@ int main(int argv, char** argc) {
     }
 
     //set socket to listen
-    if(listen(thisSocket, MAX) == -1){
+    int listenStatus = listen(thisSocket, MAXPENDING);
+
+    //if the listen is a failure
+    if(listen(listenStatus < 0)){
         fprintf(stderr, "Error listening %d\n", errno);
         goto FINISH;
     }
