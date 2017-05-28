@@ -15,6 +15,11 @@
 #include <pthread.h>
 #include <iostream>
 #include <string>
+#ifdef __WIN32__
+# include <winsock2.h>
+#else
+# include <sys/socket.h>
+#endif
 
 //the max number of players or max number of pending connections
 int MAXPENDING = 10;
