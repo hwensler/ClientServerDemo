@@ -57,6 +57,26 @@ int main(int argv, char** argc) {
     //now to do actual client stuff
     printf("Welcome to the number guessing game!\nEnter your name:\n");
 
+    //remember - you can't restrict the length of the name
+    char buffer[1024];
+    int buffer_length = 1024;
+    int bytecount;  //used to return from send
+
+    //get the name
+    fgets(buffer, 1024, stdin);
+    buffer[strlen(buffer)-1] = '\0';
+
+    //send data
+
+    //if it doesn't send
+    if((bytecount=send(thisSocket, buffer, strlen(buffer), 0)) == -1){
+        fprintf(stderr, "Error sending data %d\n", errno);
+        goto FINISH;
+    }
+    //confirm the name was sent
+    printf("Your name has been recorded.\n Now, it's time to set a guessing game record!\n");
+
+
 FINISH:
     ;
 
