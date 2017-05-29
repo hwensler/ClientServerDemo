@@ -8,18 +8,16 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
-#include <netinet/in.h>
-#include <resolv.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
 #include <unistd.h>
 #ifdef __WIN32__
 # include <winsock2.h>
 #else
 # include <sys/socket.h>
+#include <netinet/in.h>
+#include <resolv.h>
+#include <arpa/inet.h>
 #endif
 
-using namespace std;
 
 int main(int argv, char** argc) {
     //declare port information
@@ -56,7 +54,8 @@ int main(int argv, char** argc) {
 
     //create error information
     if(connection == -1){
-        if((err = errno) != EINPROGRESS){
+        //WSAEWOULDBLOCK  in windows, EINPROGRESS in Linux
+        if((err = errno) != WSAEWOULDBLOCK ){
             fprintf(stderr, "Error connecting socket %d\n", errno);
             goto FINISH;
         }

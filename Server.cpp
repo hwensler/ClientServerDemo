@@ -7,10 +7,6 @@
 #include <stdlib.h>
 #include <errno.h>
 #include <stdio.h>
-#include <netinet/in.h>
-#include <resolv.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
 #include <unistd.h>
 #include <pthread.h>
 #include <iostream>
@@ -18,7 +14,10 @@
 #ifdef __WIN32__
 # include <winsock2.h>
 #else
-# include <sys/socket.h>
+# #include <netinet/in.h>
+#include <resolv.h>
+#include <sys/socket.h>
+#include <arpa/inet.h>
 #endif
 
 //the max number of players or max number of pending connections
@@ -127,8 +126,6 @@ int main(int argv, char** argc) {
 
 void* SocketHandler(void* lp){
     int *csock = (int*)lp;
-
-
 
     FINISH:
         free(csock);
