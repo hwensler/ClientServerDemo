@@ -28,6 +28,19 @@ pthread_t thread_id;
 //a function to handle the sockets
 void* SocketHandler(void*);
 
+//a function that calculates the result of a guess
+int Distance(int guess, int number){
+    int runningTotal = 0;
+    int remainingGuess = guess;
+    int remainingNumber = number;
+    while(remainingGuess > 0 || remainingNumber > 0){
+        runningTotal = runningTotal + abs((remainingGuess) % 10 - (remainingNumber % 10));
+        remainingGuess = remainingGuess/10;
+        remainingNumber = remainingNumber/10;
+    }
+    return runningTotal;
+}
+
 using namespace std;
 
 int main(int argv, char** argc) {
@@ -133,10 +146,10 @@ void* SocketHandler(void* lp){
     int *csock = (int*)lp;
 
     char nameBuffer[1024];
-    int buffer_len = 1024;
-    int bytecount;
+    int nameBuffer_len = 1024;
+    int nameBytecount;
 
-    memset(nameBuffer, 0, buffer_len);
+    memset(nameBuffer, 0, nameBuffer_len);
 
     //set the number the client must guess
     int theNumber = rand()%(9999);
@@ -144,12 +157,44 @@ void* SocketHandler(void* lp){
     //print out for the grader/debugging
     cout << "The number you're guessing is " << theNumber << ".\n";
 
-    if((bytecount = recv(*csock, nameBuffer, buffer_len, 0)) == -1){
+    if((nameBytecount = recv(*csock, nameBuffer, nameBuffer_len, 0)) == -1){
         fprintf(stderr, "Error receiving name %d\n", errno);
         goto FINISH;
     }
 
+    //show you've received the name
     cout << "Alright, " << nameBuffer << "! Let's see what you can do!\n";
+
+    char guessBuffer[1024];
+    int guessBuffer_len = 1024;
+    int guessBytecount;
+
+    int guess = (int)guessBuffer;
+
+    //while they haven't guessed the number
+    while(guess != theNumber){
+
+        //get the number
+        if((guessBytecount = recv(*csock, guessBuffer, guessBuffer_len, 0)) == -1){
+            fprintf(stderr, "Error receiving guess %d\n", errno);
+            goto FINISH;
+        }
+
+        //set the guess
+        guess = (int)guessBuffer;
+
+        //calculate the result
+        int result = Distance(guess, theNumber);
+
+        //send the result
+        if((guessBytecount=send(*csock, guessBuffer, strlen(guessBuffer), 0)) == -1){
+            fprintf(stderr, "Error sending data %d\n", errno);
+            goto FINISH;
+        }
+
+
+
+    }
 
     FINISH:
         free(csock);
