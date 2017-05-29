@@ -34,6 +34,14 @@ using namespace std;
 
 int main(int argv, char** argc) {
 
+    //define structs for address stuff
+    struct sockaddr_in socketAddress_in;
+    struct sockaddr_in thisAddress;
+
+    //get the server address size
+    socklen_t address_size = sizeof(sockaddr_in);
+    sockaddr_in sadr;
+
     //declare the port
     int server_port = 12400;
 
@@ -50,9 +58,7 @@ int main(int argv, char** argc) {
     }
 
     //create structs for server socket information
-    struct sockaddr_in socketAddress_in;
 
-    struct sockaddr_in thisAddress;
     thisAddress.sin_family = AF_INET;    //always AF_INET
     thisAddress.sin_port = htons(server_port);
     thisAddress.sin_addr.s_addr = htonl(INADDR_ANY); //directs the server to use any ip address
@@ -78,11 +84,6 @@ int main(int argv, char** argc) {
     }
 
     //accept a connection
-
-    //get the server address size
-    socklen_t address_size = sizeof(sockaddr_in);
-
-    sockaddr_in sadr;
 
     //while no connection is accepted
     while(true){
