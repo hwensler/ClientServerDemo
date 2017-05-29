@@ -127,6 +127,12 @@ int main(int argv, char** argc) {
 void* SocketHandler(void* lp){
     int *csock = (int*)lp;
 
+    //set the number the client must guess
+    int theNumber = rand()%(9999);
+
+    //print out for the grader/debugging
+    cout << "The number you're guessing is " << theNumber << ".\n";
+
     FINISH:
         free(csock);
         return 0;

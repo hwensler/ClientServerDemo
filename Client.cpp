@@ -34,6 +34,11 @@ int main(int argv, char** argc) {
     int thisSocket; //an int for this socket
     int err;    //a variable for errors
 
+    //these are the values for communication
+    char buffer[1024];
+    int buffer_length = 1024;
+    int bytecount;  //used to return from send
+
     //create the socket
     thisSocket = socket(AF_INET, SOCK_STREAM, 0);
 
@@ -58,10 +63,6 @@ int main(int argv, char** argc) {
     printf("Welcome to the number guessing game!\nEnter your name:\n");
 
     //remember - you can't restrict the length of the name
-    char buffer[1024];
-    int buffer_length = 1024;
-    int bytecount;  //used to return from send
-
     //get the name
     fgets(buffer, 1024, stdin);
     buffer[strlen(buffer)-1] = '\0';
