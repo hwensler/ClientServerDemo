@@ -176,8 +176,18 @@ void* SocketHandler(void* lp){
     memset(victoryMessage, 0, 16384);
 
     //set leaderboard
-    string LeaderboardNames[3];
-    string LeaderboardScores[3];
+    string leaderboardNames[3] = {" ", " ", " "};
+    int leaderboardScores[3] = {99999, 99999, 99999};
+    char score1[1024];
+    char score2[1024];
+    char score3[1024];
+
+    //create temps for leaderboard update
+    string tempNewName;
+    int tempNewScore = count;
+    string tempOldName;
+    int tempOldScore;
+
 
     //set mutex for leaderboard access
     pthread_mutex_t leaderboardMutex = PTHREAD_MUTEX_INITIALIZER;
@@ -197,6 +207,9 @@ void* SocketHandler(void* lp){
     cout << "Alright, " << nameBuffer << "! Let's see what you can do!\n";
 
     guess = atoi(guessBuffer);
+
+    //set tempNewName
+    tempNewName = (string)nameBuffer;
 
     //while they haven't guessed the number
     while(guess != theNumber){
@@ -228,10 +241,34 @@ void* SocketHandler(void* lp){
 
     }
 
-    sprintf(countString, "%d", count);
-    //send a victory message
 
-    victoryString = "Congratulations! You won the game in " + (string)countString + " turns.\n";
+    //access the leaderboard
+    pthread_mutex_lock(&leaderboardMutex);
+    for(int i = 0; i < 3; i++){
+        if(tempNewScore < leaderboardScores[i]){
+            tempOldName = leaderboardNames[i];
+            tempOldScore = leaderboardScores[i];
+            leaderboardNames[i] = tempNewName;
+            leaderboardScores[i] = tempNewScore;
+
+            tempNewName = tempOldName;
+            tempNewScore = tempOldScore;
+        }
+    }
+    pthread_mutex_unlock(&leaderboardMutex);
+
+    sprintf(countString, "%d", count);
+
+    //convert scores to strings
+    sprintf(score1, "%d", leaderboardScores[0]);
+    sprintf(score2, "%d", leaderboardScores[1]);
+    sprintf(score3, "%d", leaderboardScores[2]);
+    //send a victory message
+    victoryString = "Congratulations! You won the game in " + (string)countString + " turns.\n\n" +
+            "Leaderboard: " + "1. " + leaderboardNames[0] +" " + (string)score1+ " \n" +
+            "2. " + leaderboardNames[1] + " " + (string)score2 + " \n" +
+            "3. " + leaderboardNames[2] + " " + (string)score3 + " \n";
+
     //convert victory string to char array
     cout << "Victory message to send: " << victoryString << "\n";
     copy(victoryString.begin(),victoryString.end(),victoryMessage);
@@ -241,6 +278,8 @@ void* SocketHandler(void* lp){
         fprintf(stderr, "Error sending data %d\n", errno);
         goto FINISH;
     }
+
+
 
     FINISH:
         free(csock);
