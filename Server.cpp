@@ -69,11 +69,10 @@ int main(int argv, char** argc) {
         goto FINISH;
     }
 
-    //set socket to listen
-    int listenStatus = listen(thisSocket, MAXPENDING);
 
+    //set socket to listen
     //if the listen is a failure
-    if(listenStatus < 0){
+    if(listen(thisSocket, MAXPENDING) == -1){
         fprintf(stderr, "Error listening %d\n", errno);
         goto FINISH;
     }
