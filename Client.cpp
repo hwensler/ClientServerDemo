@@ -21,13 +21,15 @@
 
 int main(int argv, char** argc) {
     //declare port information
-    int host_port = 12400;
+    int host_port = 12401;
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
     //declare structs for sockets
     struct sockaddr_in thisAddress;
     thisAddress.sin_family =  AF_INET;    //always AF_INET
-    thisAddress.sin_port = htons(host_port); //port (16 bits
+    thisAddress.sin_port = htons(host_port); //port (16 bits)
+    memset(&(thisAddress.sin_zero), 0, 8);
+    thisAddress.sin_addr.s_addr = inet_addr(host_name);
 
     int thisSocket; //an int for this socket
     int err;    //a variable for errors

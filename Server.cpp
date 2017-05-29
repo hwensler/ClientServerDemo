@@ -46,7 +46,7 @@ int main(int argv, char** argc) {
     int status;
 
     //declare the port
-    int server_port = 12400;
+    int server_port = 12401;
 
     //initialize a socket
     int thisSocket;
@@ -64,6 +64,7 @@ int main(int argv, char** argc) {
 
     thisAddress.sin_family = AF_INET;    //always AF_INET
     thisAddress.sin_port = htons(server_port);
+    memset(&(thisAddress.sin_zero), 0, 8);
     thisAddress.sin_addr.s_addr = htonl(INADDR_ANY); //directs the server to use any ip address
 
 
@@ -74,7 +75,7 @@ int main(int argv, char** argc) {
     //if the binding was not successful
     if(status < 0){
         fprintf(stderr, "Error binding to socket. Make sure nothing else is listening"
-                "on this port %d\n", errno);
+                " on this port %d\n", errno);
         goto FINISH;
     }
 
