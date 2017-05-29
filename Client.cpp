@@ -107,7 +107,7 @@ int main(int argv, char** argc) {
 
             //make sure the guess is valid
             //if the person guessed 0 OR if the guess is in the right range
-            if((guess == 0 && buffer == "0")|| (guess >= 0 && guess < 10000)){
+            if((guess == 0 && buffer == "0")|| (guess > 0 && guess < 10000)){
                 break;
             }
             else{
@@ -131,11 +131,11 @@ int main(int argv, char** argc) {
         result = atoi(buffer);
 
         //print the result
-        cout << "Result of the guess: " << result << ".\n";
+        cout << "Result of the guess: " << result << ".\n\n";
     }
 
     //tell them they won the game
-    cout << "Congratulations! It took " << count << " turns to guess the number! ";
+    cout << "Congratulations! It took " << count << " turns to guess the number! \n";
 
 
 
