@@ -24,22 +24,10 @@ int main(int argv, char** argc) {
     int host_port = 12400;
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
-    //declare structs for socket
-
-    struct clientAddress{
-        unsigned short sin_family = AF_INET;    //always AF_INET
-        unsigned short sin_port = htons(host_port); //port (16 bits
-        struct socketAddress_in sin_addr;   //internet address structure
-        char sin_zero[8];   //not used
-
-    };
-
-    struct socketAddress_in{
-        unsigned long s_address;   //internet address (32 bits)
-    };
-
-    //create structure of type client address called this address
-    struct clientAddress thisAddress;
+    //declare structs for sockets
+    struct sockaddr_in thisAddress;
+    thisAddress.sin_family =  AF_INET;    //always AF_INET
+    thisAddress.sin_port = htons(host_port); //port (16 bits
 
     int thisSocket; //an int for this socket
     int err;    //a variable for errors
@@ -58,7 +46,7 @@ int main(int argv, char** argc) {
     //create error information
     if(connection == -1){
         //WSAEWOULDBLOCK  in windows, EINPROGRESS in Linux
-        if((err = errno) != WSAEWOULDBLOCK ){
+        if((err = errno) !=  EINPROGRESS ){
             fprintf(stderr, "Error connecting socket %d\n", errno);
             goto FINISH;
         }
