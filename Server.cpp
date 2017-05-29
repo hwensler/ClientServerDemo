@@ -12,9 +12,9 @@
 #include <iostream>
 #include <string>
 #ifdef __WIN32__
-# include <winsock2.h>
+#include <winsock2.h>
 #else
-# #include <netinet/in.h>
+#include <netinet/in.h>
 #include <resolv.h>
 #include <sys/socket.h>
 #include <arpa/inet.h>
@@ -52,23 +52,15 @@ int main(int argv, char** argc) {
     //create structs for server socket information
     struct sockaddr_in socketAddress_in;
 
-    struct serverAddress{
-        unsigned short sin_family = AF_INET;    //always AF_INET
-        unsigned short sin_port = htons(server_port);
-        struct sockaddr_in sin_addr;
-        char sin_zero[8];
-    };
-
-    //make a struct for this server address
-    struct serverAddress thisAddress;
+    struct sockaddr_in thisAddress;
+    thisAddress.sin_family = AF_INET;    //always AF_INET
+    thisAddress.sin_port = htons(server_port);
     thisAddress.sin_addr.s_addr = htonl(INADDR_ANY); //directs the server to use any ip address
-    // associated with the host
-
 
 
     //bind the port to the socket
     //first, create the error message
-    int status = bind(thisSocket, (sockaddr*)&thisAddress, sizeof(serverAddress));
+    int status = bind(thisSocket, (sockaddr*)&thisAddress, sizeof(thisAddress));
 
     //if the binding was not successful
     if(status < 0){

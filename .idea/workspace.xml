@@ -12,7 +12,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1735a64c-164a-4454-8da7-c0ef189fe648" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Client.cpp" afterPath="$PROJECT_DIR$/Client.cpp" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server.cpp" afterPath="$PROJECT_DIR$/Server.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -28,11 +28,11 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="Client.cpp" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Client.cpp" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Client.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="523">
-              <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+            <state relative-caret-position="1645">
+              <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
               <folding>
                 <element signature="e#89#107#0" expanded="true" />
                 <element signature="e#252#343#0" expanded="true" />
@@ -41,14 +41,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Server.cpp" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Server.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="792">
-              <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+            <state relative-caret-position="-560">
+              <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
               <folding>
                 <element signature="e#95#113#0" expanded="true" />
-                <element signature="e#317#409#0" expanded="true" />
+                <element signature="e#316#406#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -75,8 +75,8 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Server.cpp" />
         <option value="$PROJECT_DIR$/Client.cpp" />
+        <option value="$PROJECT_DIR$/Server.cpp" />
       </list>
     </option>
   </component>
@@ -332,12 +332,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1495996412813</updated>
-      <workItem from="1495996416407" duration="11635000" />
+      <workItem from="1495996416407" duration="11898000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="11635000" />
+    <option name="totallyTimeSpent" value="11898000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-13" y="-13" width="3026" height="1946" extended-state="6" />
@@ -394,24 +394,24 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/Server.cpp">
+    <entry file="file://$PROJECT_DIR$/Client.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="792">
-          <caret line="52" column="29" lean-forward="false" selection-start-line="52" selection-start-column="29" selection-end-line="52" selection-end-column="29" />
+        <state relative-caret-position="1645">
+          <caret line="62" column="0" lean-forward="true" selection-start-line="62" selection-start-column="0" selection-end-line="62" selection-end-column="0" />
           <folding>
-            <element signature="e#95#113#0" expanded="true" />
-            <element signature="e#317#409#0" expanded="true" />
+            <element signature="e#89#107#0" expanded="true" />
+            <element signature="e#252#343#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/Client.cpp">
+    <entry file="file://$PROJECT_DIR$/Server.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="523">
-          <caret line="34" column="23" lean-forward="true" selection-start-line="34" selection-start-column="23" selection-end-line="34" selection-end-column="23" />
+        <state relative-caret-position="-560">
+          <caret line="69" column="5" lean-forward="true" selection-start-line="69" selection-start-column="5" selection-end-line="69" selection-end-column="5" />
           <folding>
-            <element signature="e#89#107#0" expanded="true" />
-            <element signature="e#252#343#0" expanded="true" />
+            <element signature="e#95#113#0" expanded="true" />
+            <element signature="e#316#406#0" expanded="true" />
           </folding>
         </state>
       </provider>
