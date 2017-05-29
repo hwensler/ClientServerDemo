@@ -55,7 +55,7 @@ int main(int argv, char** argc) {
     }
 
     //now to do actual client stuff
-
+    printf("Welcome to the number guessing game!\nEnter your name:\n");
 
 FINISH:
     ;
