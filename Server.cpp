@@ -128,7 +128,9 @@ int main(int argv, char** argc) {
             printf("-------\nReveived connection from %s\n", inet_ntoa(sadr.sin_addr));
 
             //create the pthread
-           int  threadErrorCheck = pthread_create(&thread_id, 0, &SocketHandler, (void*)csock);
+            pthread_attr_t attribute;
+            pthread_attr_init(&attribute);
+           int  threadErrorCheck = pthread_create(&thread_id, &attribute, &SocketHandler, (void*)csock);
 
             //check that thread is created
             if(threadErrorCheck){
@@ -136,6 +138,8 @@ int main(int argv, char** argc) {
                 goto FINISH;
             }
             pthread_detach(thread_id);
+            // free attribute and wait for the other threads
+            pthread_attr_destroy(&attribute);
         }
         //if it's not successful
         else{
@@ -184,7 +188,7 @@ void* SocketHandler(void* lp){
 
     //create temps for leaderboard update
     string tempNewName;
-    int tempNewScore = count;
+    int tempNewScore;
     string tempOldName;
     int tempOldScore;
 
@@ -231,7 +235,6 @@ void* SocketHandler(void* lp){
 
         //convert it to a string
         sprintf(resultBuffer, "%d", result);
-        cout << resultBuffer;
 
         //send the result
         if((guessBytecount=send(*csock, resultBuffer, strlen(guessBuffer), 0)) == -1){
@@ -241,6 +244,7 @@ void* SocketHandler(void* lp){
 
     }
 
+    tempNewScore = count;
 
     //access the leaderboard
     pthread_mutex_lock(&leaderboardMutex);
@@ -248,6 +252,7 @@ void* SocketHandler(void* lp){
         if(tempNewScore < leaderboardScores[i]){
             tempOldName = leaderboardNames[i];
             tempOldScore = leaderboardScores[i];
+
             leaderboardNames[i] = tempNewName;
             leaderboardScores[i] = tempNewScore;
 
@@ -263,14 +268,23 @@ void* SocketHandler(void* lp){
     sprintf(score1, "%d", leaderboardScores[0]);
     sprintf(score2, "%d", leaderboardScores[1]);
     sprintf(score3, "%d", leaderboardScores[2]);
+
     //send a victory message
-    victoryString = "Congratulations! You won the game in " + (string)countString + " turns.\n\n" +
-            "Leaderboard: " + "1. " + leaderboardNames[0] +" " + (string)score1+ " \n" +
-            "2. " + leaderboardNames[1] + " " + (string)score2 + " \n" +
-            "3. " + leaderboardNames[2] + " " + (string)score3 + " \n";
+    victoryString = "Congratulations! You won the game in " + (string)countString + " turns.\n\n\n" +
+            "Leaderboard:\n";
+
+    //if we actually have scores, show them
+    if(leaderboardScores[0] < 1000){
+        victoryString += "1. " + leaderboardNames[0] +" " + (string)score1+ " \n";
+    }
+    if(leaderboardScores[2] < 1000){
+        victoryString += "2. " + leaderboardNames[1] + " " + (string)score2 + " \n";
+    }
+    if(leaderboardScores[3] < 1000){
+        victoryString += "3. " + leaderboardNames[2] + " " + (string)score3 + " \n";
+    }
 
     //convert victory string to char array
-    cout << "Victory message to send: " << victoryString << "\n";
     copy(victoryString.begin(),victoryString.end(),victoryMessage);
 
 
