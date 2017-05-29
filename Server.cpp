@@ -81,7 +81,7 @@ int main(int argv, char** argc) {
     //accept a connection
 
     //get the server address size
-    int address_size = sizeof(sockaddr_in);
+    socklen_t address_size = sizeof(sockaddr_in);
 
     sockaddr_in sadr;
 
