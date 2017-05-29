@@ -12,7 +12,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="1735a64c-164a-4454-8da7-c0ef189fe648" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Client.cpp" afterPath="$PROJECT_DIR$/Client.cpp" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/Server.cpp" afterPath="$PROJECT_DIR$/Server.cpp" />
     </list>
     <ignored path="$PROJECT_DIR$/cmake-build-debug/" />
@@ -45,8 +44,8 @@
       <file leaf-file-name="Server.cpp" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Server.cpp">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="783">
-              <caret line="99" column="25" lean-forward="true" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
+            <state relative-caret-position="1443">
+              <caret line="134" column="38" lean-forward="false" selection-start-line="134" selection-start-column="38" selection-end-line="134" selection-end-column="38" />
               <folding>
                 <element signature="e#95#113#0" expanded="true" />
                 <element signature="e#316#406#0" expanded="true" />
@@ -71,6 +70,8 @@
       <find>thisSocket</find>
       <find>12400</find>
       <find>listening</find>
+      <find>address</find>
+      <find>address_size</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -335,12 +336,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1495996412813</updated>
-      <workItem from="1495996416407" duration="15765000" />
+      <workItem from="1495996416407" duration="16263000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="15765000" />
+    <option name="totallyTimeSpent" value="16263000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1489" y="0" width="1522" height="1931" extended-state="0" />
@@ -412,8 +413,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Server.cpp">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="783">
-          <caret line="99" column="25" lean-forward="true" selection-start-line="99" selection-start-column="25" selection-end-line="99" selection-end-column="25" />
+        <state relative-caret-position="1443">
+          <caret line="134" column="38" lean-forward="false" selection-start-line="134" selection-start-column="38" selection-end-line="134" selection-end-column="38" />
           <folding>
             <element signature="e#95#113#0" expanded="true" />
             <element signature="e#316#406#0" expanded="true" />

@@ -25,8 +25,6 @@ int MAXPENDING = 10;
 pthread_t thread_id;
 
 
-int* csock;
-
 //a function to handle the sockets
 void* SocketHandler(void*);
 
@@ -39,11 +37,15 @@ int main(int argv, char** argc) {
     struct sockaddr_in thisAddress;
 
     //get the server address size
-    socklen_t address_size = sizeof(sockaddr_in);
+    socklen_t address_size = 0;
     sockaddr_in sadr;
 
     //create status for error messages
     int status;
+
+    //initialize csock
+    int* csock;
+
 
     //declare the port
     int server_port = 12401;
@@ -90,6 +92,9 @@ int main(int argv, char** argc) {
     //accept a connection
 
     //while no connection is accepted
+    address_size = sizeof(sockaddr_in);
+
+
     while(true){
         //tell the user we're waiting
         printf("Waiting for a connection.\n");
@@ -98,7 +103,7 @@ int main(int argv, char** argc) {
         csock = (int*)malloc(sizeof(int));
 
         //try and connect
-        int* csock; //initialize client socket
+        //initialize client socket
         *csock = accept(thisSocket, (sockaddr*)&sadr, &address_size);
 
         //if it's successful
