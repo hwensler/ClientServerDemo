@@ -50,23 +50,25 @@ int main(int argv, char** argc) {
     }
 
     //create structs for server socket information
-    struct socketAddress_in{
-      unsigned long s_address;  //internet address(32 bits)
-    };
+    struct sockaddr_in socketAddress_in;
 
-    struct serverAddress;{
+    struct serverAddress{
         unsigned short sin_family = AF_INET;    //always AF_INET
         unsigned short sin_port = htons(server_port);
-        struct socketAddress_in sin_addr;
-        sin_addr.s_address = htonl(INADDR_ANY); //directs the server to use any ip address
-                                                // associated with the host
+        struct sockaddr_in sin_addr;
         char sin_zero[8];
-    }
+    };
+
+    //make a struct for this server address
+    struct serverAddress thisAddress;
+    thisAddress.sin_addr.s_addr = htonl(INADDR_ANY); //directs the server to use any ip address
+    // associated with the host
+
 
 
     //bind the port to the socket
     //first, create the error message
-    int status = bind(thisSocket, (socketAddress*)&serverAddress, sizeof(serverAddress));
+    int status = bind(thisSocket, (sockaddr*)&thisAddress, sizeof(serverAddress));
 
     //if the binding was not successful
     if(status < 0){
@@ -89,6 +91,8 @@ int main(int argv, char** argc) {
     //get the server address size
     int address_size = sizeof(socketAddress_in);
 
+    sockaddr_in sadr;
+
     //while no connection is accepted
     while(true){
         //tell the user we're waiting
@@ -99,7 +103,7 @@ int main(int argv, char** argc) {
 
         //try and connect
         int* csock;
-        *csock = accept(thisSocket, (socketAddress*)&sadr, &address_size);
+        *csock = accept(thisSocket, (sockaddr*)&sadr, &address_size);
 
         //if it's successful
         if(*csock != -1){
