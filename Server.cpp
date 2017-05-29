@@ -81,7 +81,7 @@ int main(int argv, char** argc) {
     //accept a connection
 
     //get the server address size
-    int address_size = sizeof(socketAddress_in);
+    int address_size = sizeof(sockaddr_in);
 
     sockaddr_in sadr;
 
@@ -94,7 +94,7 @@ int main(int argv, char** argc) {
         csock = (int*)malloc(sizeof(int));
 
         //try and connect
-        int* csock;
+        int* csock; //initialize client socket
         *csock = accept(thisSocket, (sockaddr*)&sadr, &address_size);
 
         //if it's successful
