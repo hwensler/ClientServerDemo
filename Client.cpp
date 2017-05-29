@@ -53,6 +53,10 @@ int main(int argv, char** argc) {
     //create the socket
     thisSocket = socket(AF_INET, SOCK_STREAM, 0);
 
+    //declare a long victory message buffer
+    char victoryBuffer[16384];
+    int victoryBuffer_length = 16384;
+
     //error message for if the socket isn't created correctly
     if (thisSocket < 0){
         printf("Error initializing socket %d\n", errno);
@@ -88,7 +92,7 @@ int main(int argv, char** argc) {
         goto FINISH;
     }
     //confirm the name was sent
-    printf("Your name has been recorded.\n Now, it's time to set a guessing game record!\n");
+    printf("Your name has been recorded.\nNow, it's time to set a guessing game record!\n");
 
     //while you haven't guessed the number
     while(result != 0){
@@ -99,7 +103,7 @@ int main(int argv, char** argc) {
 
         while(true){
             //get the guess
-            printf("Enter a guess: \n");
+            printf("Enter a guess: ");
             fgets(buffer, 1024, stdin);
 
             //cast buffer as int to store guess
@@ -134,8 +138,15 @@ int main(int argv, char** argc) {
         cout << "Result of the guess: " << result << ".\n\n";
     }
 
+    memset(victoryBuffer, 0, 16384);
     //tell them they won the game
-    cout << "Congratulations! It took " << count << " turns to guess the number! \n";
+    if((bytecount = recv(thisSocket, victoryBuffer, victoryBuffer_length, 0))== -1){
+        fprintf(stderr, "Error receiving data %d\n", errno);
+        goto FINISH;
+    }
+
+    //print the victory message
+    printf(victoryBuffer);
 
 
 

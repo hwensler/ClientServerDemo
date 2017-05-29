@@ -11,6 +11,7 @@
 #include <pthread.h>
 #include <iostream>
 #include <ctime>
+#include <mutex>
 #include <string>
 #ifdef __WIN32__
 #include <winsock2.h>
@@ -156,13 +157,30 @@ void* SocketHandler(void* lp){
     //set an int for the guess
     int guess;
 
+    //creates a count to tell how many turns it's taken
+    int count = 0;
+    char countString[16384] ;
+
     int *csock = (int*)lp;
 
+    //create buffer info for communication
     char nameBuffer[1024];
     int nameBuffer_len = 1024;
     int nameBytecount;
 
+    //prepare victory messages
+    string victoryString;
+    char victoryMessage[1024];
+
     memset(nameBuffer, 0, nameBuffer_len);
+    memset(victoryMessage, 0, 16384);
+
+    //set leaderboard
+    string LeaderboardNames[3];
+    string LeaderboardScores[3];
+
+    //set mutex for leaderboard access
+    pthread_mutex_t leaderboardMutex = PTHREAD_MUTEX_INITIALIZER;
 
     //set the number the client must guess
     int theNumber = rand()%(9999);
@@ -182,6 +200,9 @@ void* SocketHandler(void* lp){
 
     //while they haven't guessed the number
     while(guess != theNumber){
+
+        //increment count
+        count++;
 
         //get the number
         if((guessBytecount = recv(*csock, guessBuffer, guessBuffer_len, 0)) == -1){
@@ -205,6 +226,20 @@ void* SocketHandler(void* lp){
             goto FINISH;
         }
 
+    }
+
+    sprintf(countString, "%d", count);
+    //send a victory message
+
+    victoryString = "Congratulations! You won the game in " + (string)countString + " turns.\n";
+    //convert victory string to char array
+    cout << "Victory message to send: " << victoryString << "\n";
+    copy(victoryString.begin(),victoryString.end(),victoryMessage);
+
+
+    if((guessBytecount=send(*csock, victoryMessage, 16384, 0)) == -1){
+        fprintf(stderr, "Error sending data %d\n", errno);
+        goto FINISH;
     }
 
     FINISH:
