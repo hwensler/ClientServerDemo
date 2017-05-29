@@ -45,6 +45,7 @@ using namespace std;
 
 int main(int argv, char** argc) {
 
+
     //define structs for address stuff
     struct sockaddr_in socketAddress_in;
     struct sockaddr_in thisAddress;
@@ -59,8 +60,8 @@ int main(int argv, char** argc) {
     //initialize csock
     int* csock;
 
-    //declare the port
-    int server_port = 12403;
+    //declare server port
+    int server_port = atoi(argc[1]);
 
     //initialize a socket
     int thisSocket;
@@ -147,6 +148,7 @@ void* SocketHandler(void* lp){
     char guessBuffer[1024];
     int guessBuffer_len = 1024;
     int guessBytecount;
+    char resultBuffer[1024];
 
     //set an int for the guess
     int guess;
@@ -190,13 +192,15 @@ void* SocketHandler(void* lp){
         //calculate the result
         int result = Distance(guess, theNumber);
 
+        //convert it to a string
+        sprintf(resultBuffer, "%d", result);
+        cout << resultBuffer;
+
         //send the result
-        if((guessBytecount=send(*csock, guessBuffer, strlen(guessBuffer), 0)) == -1){
+        if((guessBytecount=send(*csock, resultBuffer, strlen(guessBuffer), 0)) == -1){
             fprintf(stderr, "Error sending data %d\n", errno);
             goto FINISH;
         }
-
-
 
     }
 

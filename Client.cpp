@@ -24,7 +24,7 @@ using namespace std;
 
 int main(int argv, char** argc) {
     //declare port information
-    int host_port = 12403;
+    int server_port = atoi(argc[1]);
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
     int guess;  //the guess you've made
