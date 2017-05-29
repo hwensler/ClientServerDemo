@@ -21,7 +21,7 @@
 
 int main(int argv, char** argc) {
     //declare port information
-    int host_port = 12401;
+    int host_port = 12402;
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
     //declare structs for sockets

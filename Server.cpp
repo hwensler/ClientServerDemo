@@ -48,7 +48,7 @@ int main(int argv, char** argc) {
 
 
     //declare the port
-    int server_port = 12401;
+    int server_port = 12402;
 
     //initialize a socket
     int thisSocket;
@@ -132,11 +132,24 @@ int main(int argv, char** argc) {
 void* SocketHandler(void* lp){
     int *csock = (int*)lp;
 
+    char nameBuffer[1024];
+    int buffer_len = 1024;
+    int bytecount;
+
+    memset(nameBuffer, 0, buffer_len);
+
     //set the number the client must guess
     int theNumber = rand()%(9999);
 
     //print out for the grader/debugging
     cout << "The number you're guessing is " << theNumber << ".\n";
+
+    if((bytecount = recv(*csock, nameBuffer, buffer_len, 0)) == -1){
+        fprintf(stderr, "Error receiving name %d\n", errno);
+        goto FINISH;
+    }
+
+    cout << "Alright, " << nameBuffer << "! Let's see what you can do!\n";
 
     FINISH:
         free(csock);
