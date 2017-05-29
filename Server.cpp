@@ -59,9 +59,8 @@ int main(int argv, char** argc) {
     //initialize csock
     int* csock;
 
-
     //declare the port
-    int server_port = 12402;
+    int server_port = 12403;
 
     //initialize a socket
     int thisSocket;
@@ -143,6 +142,15 @@ int main(int argv, char** argc) {
 }
 
 void* SocketHandler(void* lp){
+
+    //create buffers for the game communication
+    char guessBuffer[1024];
+    int guessBuffer_len = 1024;
+    int guessBytecount;
+
+    //set an int for the guess
+    int guess;
+
     int *csock = (int*)lp;
 
     char nameBuffer[1024];
@@ -165,11 +173,7 @@ void* SocketHandler(void* lp){
     //show you've received the name
     cout << "Alright, " << nameBuffer << "! Let's see what you can do!\n";
 
-    char guessBuffer[1024];
-    int guessBuffer_len = 1024;
-    int guessBytecount;
-
-    int guess = (int)guessBuffer;
+    guess = atoi(guessBuffer);
 
     //while they haven't guessed the number
     while(guess != theNumber){
@@ -181,7 +185,7 @@ void* SocketHandler(void* lp){
         }
 
         //set the guess
-        guess = (int)guessBuffer;
+        guess = atoi(guessBuffer);
 
         //calculate the result
         int result = Distance(guess, theNumber);

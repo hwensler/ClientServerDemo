@@ -7,6 +7,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <errno.h>
+#include <iostream>
+#include <string>
 #include <stdio.h>
 #include <unistd.h>
 #ifdef __WIN32__
@@ -18,11 +20,20 @@
 #include <arpa/inet.h>
 #endif
 
+using namespace std;
 
 int main(int argv, char** argc) {
     //declare port information
-    int host_port = 12402;
+    int host_port = 12403;
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
+
+    int guess;  //the guess you've made
+
+    //initialize a counter for the count you're on
+    int count = 0;
+
+    //initialize the result to something that's not 0
+    int result = 1;
 
     //declare structs for sockets
     struct sockaddr_in thisAddress;
@@ -62,7 +73,7 @@ int main(int argv, char** argc) {
     //now to do actual client stuff
     printf("Welcome to the number guessing game!\nEnter your name:\n");
 
-    int guess;
+
 
     //remember - you can't restrict the length of the name
     //get the name
@@ -79,28 +90,52 @@ int main(int argv, char** argc) {
     //confirm the name was sent
     printf("Your name has been recorded.\n Now, it's time to set a guessing game record!\n");
 
-    while(true){
-        //get the guess
-        printf("Alright. What's your guess? \n");
-        fgets(buffer, 1024, stdin);
+    //while you haven't guessed the number
+    while(result != 0){
 
-        //cast buffer as int to store guess
-        guess = (int)buffer;
+        //increment count
+        count++;
+        cout << "Turn: " << count <<"\n";
 
-        //make sure the guess is valid
-        if(guess >= 0 && guess < 10000){
-            break;
+        while(true){
+            //get the guess
+            printf("Enter a guess: \n");
+            fgets(buffer, 1024, stdin);
+
+            //cast buffer as int to store guess
+            guess = atoi(buffer);
+
+            //make sure the guess is valid
+            if(guess >= 0 && guess < 10000){
+                break;
+            }
+            else{
+                printf("Please pick an integer between 0 and 9999. \n");
+            }
         }
-        else{
-            printf("Please pick an integer between 0 and 9999.");
+
+        //if the input guess is good, send it to the server
+        if((bytecount=send(thisSocket, buffer, strlen(buffer), 0)) == -1){
+            fprintf(stderr, "Error sending data %d\n", errno);
+            goto FINISH;
         }
+
+        //now receive the result of your guess
+        if((bytecount = recv(thisSocket, buffer, buffer_length, 0))== -1){
+            fprintf(stderr, "Error receiving data %d\n", errno);
+            goto FINISH;
+        }
+
+        //record the result
+        result = atoi(buffer);
+
+        //print the result
+        cout << "Result of the guess: " << result << ".\n";
     }
 
-    //if the input guess is good, send it to the server
-    if((bytecount=send(thisSocket, buffer, strlen(buffer), 0)) == -1){
-        fprintf(stderr, "Error sending data %d\n", errno);
-        goto FINISH;
-    }
+    //tell them they won the game
+    cout << "Congratulations! It took " << count << " turns to guess the number! ";
+
 
 
 FINISH:
