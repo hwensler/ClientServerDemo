@@ -42,6 +42,9 @@ int main(int argv, char** argc) {
     socklen_t address_size = sizeof(sockaddr_in);
     sockaddr_in sadr;
 
+    //create status for error messages
+    int status;
+
     //declare the port
     int server_port = 12400;
 
@@ -66,7 +69,7 @@ int main(int argv, char** argc) {
 
     //bind the port to the socket
     //first, create the error message
-    int status = bind(thisSocket, (sockaddr*)&thisAddress, sizeof(thisAddress));
+    status = bind(thisSocket, (sockaddr*)&thisAddress, sizeof(thisAddress));
 
     //if the binding was not successful
     if(status < 0){
