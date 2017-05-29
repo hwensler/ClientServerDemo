@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include <pthread.h>
 #include <iostream>
+#include <ctime>
 #include <string>
 #ifdef __WIN32__
 #include <winsock2.h>
@@ -45,6 +46,8 @@ using namespace std;
 
 int main(int argv, char** argc) {
 
+    //using a random seed based on time
+    srand(time(NULL));
 
     //define structs for address stuff
     struct sockaddr_in socketAddress_in;

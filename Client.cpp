@@ -24,7 +24,7 @@ using namespace std;
 
 int main(int argv, char** argc) {
     //declare port information
-    int server_port = atoi(argc[1]);
+    int host_port = atoi(argc[1]);
     char* host_name = "127.0.0.1" ;  //the ip address for the local host
 
     int guess;  //the guess you've made
@@ -106,7 +106,8 @@ int main(int argv, char** argc) {
             guess = atoi(buffer);
 
             //make sure the guess is valid
-            if(guess >= 0 && guess < 10000){
+            //if the person guessed 0 OR if the guess is in the right range
+            if((guess == 0 && buffer == "0")|| (guess >= 0 && guess < 10000)){
                 break;
             }
             else{
